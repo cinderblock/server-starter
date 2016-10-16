@@ -1,0 +1,30 @@
+{
+  "name": "server-starter",
+  "version": "0.0.0",
+  "description": "A simple tool for starting node servers on a port and optionally hostname or a unix socket",
+  "main": "serverStarter.js",
+  "scripts": {
+    "postversion": "npm publish",
+    "postpublish": "git push origin master --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cinderblock/server-starter.git"
+  },
+  "keywords": [
+    "server",
+    "start",
+    "unix",
+    "socket",
+    "unlink",
+    "chmod",
+    "listen",
+    "permissions"
+  ],
+  "author": "Cameron Tacklind <cameron@tacklind.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cinderblock/server-starter/issues"
+  },
+  "homepage": "https://github.com/cinderblock/server-starter#readme"
+}
