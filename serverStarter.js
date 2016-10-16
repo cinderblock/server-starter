@@ -16,7 +16,7 @@ function serverStarter (server, config, callback) {
     server.removeListener('error', handleError);
     var addr = server.address();
     function done() {
-      callback(null, {addr});
+      callback(null, addr);
     }
     if (addr.port && (addr.port > 0)) {
       // listening on a port
