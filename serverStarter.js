@@ -40,7 +40,7 @@ function serverStarter (server, config, callback) {
     }
     if (err.code == 'EADDRINUSE') {
       if (err.port > 0) {
-        done(`Address (${err.address} ${err.port}) already in use.`);
+        done(`Address (${err.address} ${err.port}) already in use`);
       } else if (err.address) {
         // Try to connect. If not running, remove and continue.
         var clientSocket = new net.Socket();
@@ -50,22 +50,22 @@ function serverStarter (server, config, callback) {
             // Remove and continue
             fs.unlink(err.address, StartListening);
           } else {
-            done('Unkown error:', e);
+            done('Unkown error', e);
           }
         });
 
         // Try to connect
         clientSocket.connect({path: err.address}, function() {
-          done(`Address (${err.address}) already in use.`);
+          done(`Address (${err.address}) already in use`);
           clientSocket.unref();
         });
       } else {
         // Unknown address in use error
-        done('Address in use.');
+        done('Address in use');
       }
     } else {
       // Other error
-      done('Other error.');
+      done('Other error');
     }
   }
 
