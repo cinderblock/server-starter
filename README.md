@@ -49,12 +49,12 @@ The `listen` option allows switching between IP socket or unix socket.
 Each has an optional extra settings.
 
 ### IP Options
- - `listen` *`Integer`* Port to listen on
- - `hostname` *`String`*
+ - `listen` - *`Integer`* Port to listen on
+ - `hostname` - *`String`*
 
 ### Socket Options
- - `listen` *`String`* Specify socket filename
- - `socketMode` *`Integer`* passed to `fs.chmod` - octal notation is easiest
+ - `listen` - *`String`* Specify socket filename
+ - `socketMode` - *`Integer`* passed to `fs.chmod` - octal notation is easiest
  - `socketOwner` passed to `fs.chown`
-   - `user` *`Integer`* or *`String`* if `userid` is installed
-   - `group` *`Integer`* or *`String`* if `userid` is installed
+   - `user` - *`Integer`* or *`String`* if `userid` is installed
+   - `group` - *`Integer`* or *`String`* if `userid` is installed
