@@ -20,15 +20,42 @@ function serverStarter (server, config, callback) {
       callback(null, addr);
     }
     if (addr.port && (addr.port > 0)) {
-      // listening on a port
-    } else {
-      // listening on a socket
-      if (config.socketMode) {
-        fs.chmod(addr, config.socketMode, done);
-        return;
+      // Listening on a port. We're done here.
+      done();
+      return;
+    }
+
+    // An extra handler for the done function since we redefine it later. This may be unnecessary.
+    var done2 = done;
+
+    // Listening on a socket
+    if (config.socketOwner) {
+      // Load current process uid/gid in case we're only setting one of them
+      var user = process.getuid();
+      var group = process.getgid();
+      // Make sure user and group are set to something reasonable
+      var set = false;
+      if ((typeof config.socketOwner.user === 'number') && (config.socketOwner.user % 1 === 0) && (config.socketOwner.user >= 0)) {
+        user = config.socketOwner.user;
+        set = true;
+      }
+      if ((typeof config.socketOwner.group === 'number') && (config.socketOwner.group % 1 === 0) && (config.socketOwner.group >= 0)) {
+        group = config.socketOwner.group;
+        set = true;
+      }
+      // Only if we actually set a user or group properly does this do anything
+      if (set) {
+        // Redefine done2, to be called shortly.
+        done2 = function () {
+          fs.chown(addr, user, group, done);
+        };
       }
     }
-    done();
+    if (config.socketMode) {
+      fs.chmod(addr, config.socketMode, done2);
+    } else {
+      done2();
+    }
   }
 
   function handleError(err) {
