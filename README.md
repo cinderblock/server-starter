@@ -4,7 +4,7 @@ A simple tool for starting node servers on a port and optionally hostname or a u
 
 This tool starts a server.
 If a unix socket is specified, and the file already exists, it is detected, tested to see if it is alive, and removed if it is indeed dead.
-It also allows setting a file mode for the socket after creation.
+It also allows setting a file mode and owner for the socket after creation.
 
 ## Install
 
