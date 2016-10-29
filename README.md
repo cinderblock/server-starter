@@ -41,6 +41,8 @@ ServerStarter(server, options, (err, info, extra) => {
 });
 ```
 
+You can use strings for `socketOwner` `user` or `group` if the optional npm dependency `userid` is installed.
+
 ## Options
 
 The `listen` option allows switching between IP socket or unix socket.
