@@ -46,4 +46,15 @@ You can use strings for `socketOwner` `user` or `group` if the optional npm depe
 ## Options
 
 The `listen` option allows switching between IP socket or unix socket.
-Each has an optional extra setting: `hostname` and `socketMode` respectively.
+Each has an optional extra settings.
+
+### IP Options
+ - `listen` *`Integer`* Port to listen on
+ - `hostname` *`String`*
+
+### Socket Options
+ - `listen` *`String`* Specify socket filename
+ - `socketMode` *`Integer`* passed to `fs.chmod` - octal notation is easiest
+ - `socketOwner` passed to `fs.chown`
+   - `user` *`Integer`* or *`String`* if `userid` is installed
+   - `group` *`Integer`* or *`String`* if `userid` is installed
