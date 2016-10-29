@@ -22,6 +22,10 @@ const server = new require('net').Server();
 const socketOptions = {
   listen: 'path/to/socket',
   socketMode: 770,
+  socketOwner: {
+    user: 1000,
+    group: 1000,
+  }
 }
 const ipOptions = {
   listen: 9001,
