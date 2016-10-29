@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/cinderblock/server-starter/issues"
   },
+  "peerDependencies": {
+    "userid": "^0.1.2"
+  },
   "homepage": "https://github.com/cinderblock/server-starter#readme"
 }

@@ -35,12 +35,19 @@ function serverStarter (server, config, callback) {
       var group = process.getgid();
       // Make sure user and group are set to something reasonable
       var set = false;
-      if ((typeof config.socketOwner.user === 'number') && (config.socketOwner.user % 1 === 0) && (config.socketOwner.user >= 0)) {
+      var req;
+      if (isPosInt(config.socketOwner.user)) {
         user = config.socketOwner.user;
         set = true;
+      } else if (typeof config.socketOwner.user === 'string' && (req = requireUserId())) {
+        user = req.uid(config.socketOwner.user);
+        set = true;
       }
-      if ((typeof config.socketOwner.group === 'number') && (config.socketOwner.group % 1 === 0) && (config.socketOwner.group >= 0)) {
+      if (isPosInt(config.socketOwner.group)) {
         group = config.socketOwner.group;
+        set = true;
+      } else if (typeof config.socketOwner.group === 'string' && (req = requireUserId())) {
+        group = req.gid(config.socketOwner.group);
         set = true;
       }
       // Only if we actually set a user or group properly does this do anything
@@ -102,5 +109,15 @@ function serverStarter (server, config, callback) {
 
   StartListening();
 };
+
+function isPosInt(i) {
+  return (typeof i === 'number') && (i % 1 === 0) && (i >= 0);
+}
+
+var userid;
+
+function requireUserId() {
+  return userid = userid || require('userid');
+}
 
 module.exports = serverStarter;
