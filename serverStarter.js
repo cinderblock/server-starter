@@ -3,6 +3,10 @@ const net = require('net');
 
 function serverStarter (server, config, callback) {
 
+  if (typeof(server.listen) != 'function') {
+    throw new TypeError('server ardument must have a member function called `listen`');
+  }
+
   if (!callback) callback = function(err, data) {
     if (err) {
       throw {err, data};
