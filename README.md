@@ -9,6 +9,10 @@ It also allows setting a file mode and owner for the socket after creation.
 ## Install
 
 ```
+yarn add server-starter
+```
+
+```
 npm install server-starter --save
 ```
 
