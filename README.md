@@ -49,7 +49,7 @@ ServerStarter(server, options, (err, info, extra) => {
 });
 ```
 
-You can use strings for `socketOwner` `user` or `group` if the optional npm dependency `userid` is installed.
+You can use strings for `socketOwner` `user` or `group`.
 
 ## Options
 
@@ -64,5 +64,5 @@ Each has an optional extra settings.
  - `listen` - *`String`* Specify socket filename
  - `socketMode` - *`Integer`* passed to `fs.chmod` - octal notation is easiest
  - `socketOwner` passed to `fs.chown`
-   - `user` - *`Integer`* or *`String`* if `userid` is installed
-   - `group` - *`Integer`* or *`String`* if `userid` is installed
+   - `user` - *`Integer`* or *`String`*
+   - `group` - *`Integer`* or *`String`*
