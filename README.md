@@ -18,6 +18,8 @@ npm install server-starter --save
 
 ## Usage
 
+server-starter works on any "server" that has a "`.listen(..)`" method that takes a first argument that is a port number or socket file and an optional second argument, which is only valid if a port number was specified as the first argument, that is the network device to listen on.
+
 ```
 const ServerStarter = require('server-starter');
 
