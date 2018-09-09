@@ -36,6 +36,8 @@ const ipOptions = {
   hostname: '127.0.0.1',
 }
 
+const options = socketOptions || ipOptions;
+
 ServerStarter(server, options, (err, info, extra) => {
   if (err) {
     console.log(err, info, extra);
