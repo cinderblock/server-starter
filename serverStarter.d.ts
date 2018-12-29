@@ -18,5 +18,5 @@ export default function serverStarter(
         listen: number;
         hostname?: string;
       },
-  callback: (err: bool, info: string, extra?: string) => void
+  callback: (err: boolean, info: string, extra?: string) => void
 ): void;
