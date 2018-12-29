@@ -1,3 +1,5 @@
+import { AddressInfo } from 'net';
+
 export type ServerStarterOptions =
   | {
       listen: string;
@@ -12,7 +14,7 @@ export type ServerStarterOptions =
       hostname?: string;
     };
 
-export default function serverStarter(
+export default function serverStarter<T>(
   server: {
     listen:
       | ((listen: number, bind?: string) => any)
@@ -20,5 +22,5 @@ export default function serverStarter(
     once: (event: 'error' | 'listening', cb: (...args: any[]) => any) => any;
   },
   config: ServerStarterOptions,
-  callback: (err: boolean, info: string, extra?: string) => void
-): void;
+  callback: (err: null | Error | string, info: T | Error, extra?: Error) => any
+): undefined;
