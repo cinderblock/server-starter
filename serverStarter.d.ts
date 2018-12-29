@@ -16,10 +16,12 @@ export type ServerStarterOptions =
 
 export default function serverStarter<T>(
   server: {
+    address: () => T;
     listen:
       | ((listen: number, bind?: string) => any)
       | ((listen: string) => any);
-    once: (event: 'error' | 'listening', cb: (...args: any[]) => any) => any;
+    once: (event: 'error' | 'listening', cb: Function) => any;
+    removeListener: (event: 'error' | 'listening', cb: Function) => any;
   },
   config: ServerStarterOptions,
   callback: (err: null | Error | string, info: T | Error, extra?: Error) => any
