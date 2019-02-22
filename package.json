@@ -1,6 +1,6 @@
 {
   "name": "server-starter",
-  "version": "1.5.1",
+  "version": "1.5.3",
   "description": "A simple tool for starting node servers on a port and optionally hostname or a unix socket",
   "main": "serverStarter.js",
   "types": "serverStarter.d.ts",
