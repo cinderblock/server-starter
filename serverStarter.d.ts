@@ -1,20 +1,26 @@
 import { AddressInfo } from 'net';
 
-export type ServerStarterOptions =
-  | {
-      listen: string;
-      socketMode: number;
-      socketOwner: {
-        user: number | string;
-        group: number | string;
-      };
-    }
-  | {
-      listen: number;
-      hostname?: string;
-    };
+export = ServerStarter;
 
-export default function serverStarter<T>(
+declare namespace ServerStarter {
+  const prototype: {};
+
+  type ServerStarterOptions =
+    | {
+        listen: string;
+        socketMode: number;
+        socketOwner: {
+          user: number | string;
+          group: number | string;
+        };
+      }
+    | {
+        listen: number;
+        hostname?: string;
+      };
+}
+
+declare function ServerStarter<T>(
   server: {
     address: () => T;
     listen:
@@ -23,6 +29,6 @@ export default function serverStarter<T>(
     once: (event: 'error' | 'listening', cb: Function) => any;
     removeListener: (event: 'error' | 'listening', cb: Function) => any;
   },
-  config: ServerStarterOptions,
+  config: ServerStarter.ServerStarterOptions,
   callback: (err: null | Error | string, info: T | Error, extra?: Error) => any
 ): undefined;
