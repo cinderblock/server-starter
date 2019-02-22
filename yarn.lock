@@ -7,9 +7,8 @@ nan@^2.0.9:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.12.1.tgz#7b1aa193e9aa86057e3c7bbd0ac448e770925552"
   integrity sha512-JY7V6lRkStKcKTvHO5NVSQRv+RV+FIL5pvDoLiAtSL9pKlC5x9PKQcZDsq7m4FO4d57mkhC6Z+QhAh3Jdk5JFw==
 
-userid@^0.3.1:
+"userid@https://github.com/cinderblock/node-userid#restrict-oses":
   version "0.3.1"
-  resolved "https://registry.yarnpkg.com/userid/-/userid-0.3.1.tgz#8dd11276864b363e71a65acc7ceac6e7b5e03f38"
-  integrity sha1-jdESdoZLNj5xplrMfOrG57XgPzg=
+  resolved "https://github.com/cinderblock/node-userid#0f5e365237cb647b3e10a6b476a033352f1f155d"
   dependencies:
     nan "^2.0.9"
