@@ -20,14 +20,14 @@ declare namespace ServerStarter {
       };
 }
 
-declare function ServerStarter<T>(
+declare function ServerStarter<T, F extends (...args: any[]) => void>(
   server: {
     address: () => T;
     listen:
       | ((listen: number, bind?: string) => any)
       | ((listen: string) => any);
-    once: (event: 'error' | 'listening', cb: Function) => any;
-    removeListener: (event: 'error' | 'listening', cb: Function) => any;
+    once: (event: 'error' | 'listening', cb: F) => any;
+    removeListener: (event: 'error' | 'listening', cb: F) => any;
   },
   config: ServerStarter.ServerStarterOptions,
   callback: (err: null | Error | string, info: T | Error, extra?: Error) => any
