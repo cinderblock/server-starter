@@ -32,7 +32,7 @@
     "url": "https://github.com/cinderblock/server-starter/issues"
   },
   "optionalDependencies": {
-    "userid": "https://github.com/cinderblock/node-userid#restrict-oses"
+    "userid": "^1.0.0-beta.2"
   },
   "homepage": "https://github.com/cinderblock/server-starter#readme"
 }
