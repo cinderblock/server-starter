@@ -1,16 +1,30 @@
 {
   "name": "server-starter",
-  "version": "1.6.2",
-  "description": "A simple tool for starting node servers on a port and optionally hostname or a unix socket",
-  "main": "serverStarter.js",
-  "types": "serverStarter.d.ts",
+  "version": "2.0.0",
+  "description": "Start a node server on a TCP port or unix socket. Handles stale socket files and applies socketMode/socketOwner after listening.",
+  "type": "module",
+  "main": "dist/server-starter.js",
+  "types": "dist/server-starter.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/server-starter.d.ts",
+      "default": "./dist/server-starter.js"
+    }
+  },
   "files": [
-    "serverStarter.js",
-    "serverStarter.d.ts"
+    "dist/server-starter.js",
+    "dist/server-starter.js.map",
+    "dist/server-starter.d.ts",
+    "dist/server-starter.d.ts.map"
   ],
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "postversion": "npm publish",
-    "postpublish": "git push origin master --tags"
+    "build": "tsc",
+    "test": "npm run build && node --test dist/server-starter.test.js",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -19,20 +33,24 @@
   "keywords": [
     "server",
     "start",
-    "unix",
-    "socket",
-    "unlink",
-    "chmod",
     "listen",
-    "permissions"
+    "unix-socket",
+    "tcp",
+    "chmod",
+    "chown",
+    "stale-socket"
   ],
   "author": "Cameron Tacklind <cameron@tacklind.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cinderblock/server-starter/issues"
   },
+  "homepage": "https://github.com/cinderblock/server-starter#readme",
   "optionalDependencies": {
-    "userid": "^1.0.0-beta.2"
+    "userid": "^1.2.5"
   },
-  "homepage": "https://github.com/cinderblock/server-starter#readme"
+  "devDependencies": {
+    "@types/node": "^22.19.19",
+    "typescript": "^6.0.3"
+  }
 }

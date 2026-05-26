@@ -1,68 +1,95 @@
 # server-starter
 
-A simple tool for starting node servers on a port and optionally hostname or a unix socket.
+Start a node server listening on a TCP port or unix socket. For unix sockets: detects stale socket files, removes them, and retries. After listening, applies `chmod`/`chown` to the socket file if requested.
 
-This tool starts a server.
-If a unix socket is specified, and the file already exists, it is detected, tested to see if it is alive, and removed if it is indeed dead.
-It also allows setting a file mode and owner for the socket after creation.
+Promise-based, TypeScript-typed, ESM-only.
 
 ## Install
 
-```
-yarn add server-starter
+```sh
+npm install server-starter
 ```
 
-```
-npm install server-starter --save
+If you want to resolve `socketOwner.user`/`group` by name rather than uid/gid, also install the optional native dep:
+
+```sh
+npm install userid
 ```
 
 ## Usage
 
-server-starter works on any "server" that has a "`.listen(..)`" method that takes a first argument that is a port number or socket file and an optional second argument, which is only valid if a port number was specified as the first argument, that is the network device to listen on.
+```ts
+import { createServer } from 'node:net';
+import { startServer } from 'server-starter';
 
-```
-const ServerStarter = require('server-starter');
+const server = createServer();
 
-const server = new require('net').Server();
-
-const socketOptions = {
-  listen: 'path/to/socket',
-  socketMode: 0770,
-  socketOwner: {
-    user: 1000,
-    group: 1000,
-  }
-}
-const ipOptions = {
+// TCP:
+const addr = await startServer(server, {
   listen: 9001,
   hostname: '127.0.0.1',
-}
+});
+console.log('Listening on', addr); // { address, port, family }
 
-const options = socketOptions || ipOptions;
-
-ServerStarter(server, options, (err, info, extra) => {
-  if (err) {
-    console.log(err, info, extra);
-  } else {
-    console.log('Listening:', info);
-  }
+// Unix socket:
+await startServer(server, {
+  listen: '/run/myapp.sock',
+  socketMode: 0o770,
+  socketOwner: { user: 'myapp', group: 'www-data' },
 });
 ```
 
-You can use strings for `socketOwner` `user` or `group`.
+If the socket path already exists, `server-starter` will probe it: if a process is actively accepting connections there, listening fails; if not, the stale socket file is removed and listening retries.
 
-## Options
+## API
 
-The `listen` option allows switching between IP socket or unix socket.
-Each has an optional extra settings.
+### `startServer(server, options): Promise<AddressInfo | string>`
 
-### IP Options
- - `listen` - *`Integer`* Port to listen on
- - `hostname` - *`String`*
+`server` is anything with `listen` / `address` / `once('listening'|'error')` / `removeListener`. A `net.Server` works; an `http.Server` works; a streams-friendly mock works.
 
-### Socket Options
- - `listen` - *`String`* Specify socket filename
- - `socketMode` - *`Integer`* passed to `fs.chmod` - octal notation is easiest
- - `socketOwner` passed to `fs.chown`
-   - `user` - *`Integer`* or *`String`*
-   - `group` - *`Integer`* or *`String`*
+`options` is one of:
+
+**TCP**:
+- `listen` (number) — port (`0` to pick any).
+- `hostname` (string, optional) — interface to bind to. Default: all interfaces.
+
+**Unix socket**:
+- `listen` (string) — socket path.
+- `socketMode` (number, optional) — applied via `fs.chmod` after listening.
+- `socketOwner` (`{ user?, group? }`, optional) — applied via `fs.chown`. `user`/`group` can be numeric (uid/gid) or strings (resolved via the optional `userid` package).
+
+Resolves to the server's `.address()` value.
+
+## Migration from 1.x
+
+The 1.x API was a callback-style function:
+
+```js
+const ServerStarter = require('server-starter');
+ServerStarter(server, options, (err, info) => { ... });
+```
+
+In 2.x:
+
+```ts
+import { startServer } from 'server-starter';
+try {
+  const info = await startServer(server, options);
+} catch (err) {
+  // ...
+}
+```
+
+Behavior changes:
+- ESM-only (Node 22+ supports `require(ESM)` for non-async-top-level modules).
+- Returns a Promise instead of taking a callback. No third `extra` argument — original errors propagate via the rejection chain.
+- `socketOwner.user` and `.group` are now individually optional. Pass only the one you want to set.
+- TypeScript types are generated from the source, not hand-maintained.
+
+## Requirements
+
+- Node.js >= 22.
+
+## License
+
+MIT.

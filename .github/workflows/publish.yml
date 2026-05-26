@@ -1,0 +1,27 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm install -g npm@latest
+      - run: npm ci
+      - run: npm test
+      # Auth is via npm Trusted Publishing (OIDC). Configure on npmjs.com:
+      # https://www.npmjs.com/package/server-starter/access → "Trusted Publisher"
+      # → add GitHub Actions / cinderblock / server-starter / publish.yml / (no environment).
+      - run: npm publish --provenance --access public
