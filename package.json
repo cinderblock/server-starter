@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/cinderblock/server-starter#readme",
   "optionalDependencies": {
-    "userid": "^1.2.5"
+    "userid": "^2.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.19.19",
